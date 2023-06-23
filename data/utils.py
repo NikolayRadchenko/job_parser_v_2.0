@@ -82,16 +82,14 @@ def user_interface():
                                     "0 - Назад\n")
 
                 if user_choice == "1":
-                    print(js_file.get_vacancies(platform))
+                    print(js_file.get_vacancies())
 
                 elif user_choice == "2":
                     del_vacancy = input("id вакансии: \n")
-                    for vac in vacancies:
-                        if vac.id == del_vacancy:
-                            vacancies.remove(vac)
+                    js_file.remove_vacancy([del_vacancy])
                 elif user_choice == "0":
                     break
-                input("Нажмите ENTER, чтобы продолжить!")
+                input("Нажмите ENTER, чтобы продолжить!\n")
 
         elif platform_choice == "3":
             flag = False
