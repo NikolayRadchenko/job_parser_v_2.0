@@ -1,5 +1,6 @@
 class Vacancy:
-    def __init__(self, name: str, salary: str, description: str, link: str):
+    def __init__(self, id: str, name: str, salary: str, description: str, link: str):
+        self.id = id
         self.name = name
         self.salary = salary
         self.description = description
