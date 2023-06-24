@@ -27,15 +27,23 @@ class JSONSaver:
         with open(self.file_path, 'r', encoding="utf-8") as file:
             return self.printjson(json.load(file))
 
-    def remove_vacancy(self, vacancy_id):
+    def remove_vacancy(self, vacancy_id, platform):
         with open(self.file_path, encoding="utf8") as file:
             data = json.load(file)
-            data['items'] = list(
-                filter(
-                    lambda x: x.get('id') not in vacancy_id,
-                    data.get('items', [])
+            if platform == "headhunter.ru":
+                data['items'] = list(
+                    filter(
+                        lambda x: x.get('id') not in vacancy_id,
+                        data.get('items', [])
+                    )
                 )
-            )
+            elif platform == "superjob.ru":
+                data['objects'] = list(
+                    filter(
+                        lambda x: x.get('id') not in vacancy_id,
+                        data.get('objects', [])
+                    )
+                )
         with open(self.file_path, "w", encoding="utf8") as file:
             json.dump(data, file, indent=2, ensure_ascii=False)
 

@@ -55,7 +55,7 @@ def user_interface():
                     input("Нажмите ENTER, чтобы продолжить!")
                     break
                 elif user_choice == "2":
-                    search_query = input("Введите поисковый запрос: \n")
+                    search_query = input("Введите какую зарплату искать: \n")
                     n_salary = int(input("Сколько получить вакансий по зарплате? \n"))
                     if 0 < int(n_salary) < 100:
                         res = platform().get_search_vacancies(search_query, n_salary)
@@ -63,7 +63,7 @@ def user_interface():
                         res = platform().get_search_vacancies(search_query, 10)
                     else:
                         res = platform().get_search_vacancies(search_query, 100)
-                    print(print_result_search(platform, res, "Зарплата"))
+                    print(print_result_search(platform, res, sorty="Зарплата")[0])
                     input("Нажмите ENTER, чтобы продолжить!")
                     break
                 elif user_choice == "3":
@@ -86,16 +86,13 @@ def user_interface():
 
                 elif user_choice == "2":
                     del_vacancy = input("id вакансии: \n")
-                    js_file.remove_vacancy([del_vacancy])
+                    js_file.remove_vacancy([del_vacancy], str(platform()))
                 elif user_choice == "0":
                     break
                 input("Нажмите ENTER, чтобы продолжить!\n")
 
         elif platform_choice == "3":
             flag = False
-            print("До свидания!")
+            print(f"До свидания, {user_name}, возвращайтесь!")
         else:
             print("Неверный ввод")
-
-
-user_interface()

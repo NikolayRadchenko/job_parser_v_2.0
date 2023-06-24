@@ -12,7 +12,7 @@ class SuperJob(JobParser):
     def __str__(self):
         return "superjob.ru"
 
-    def get_vacancies_api(self, **kwargs):
+    def get_vacancies(self, **kwargs):
         params = {}
         headers = {
             'X-Api-App-Id': self.__api_key
@@ -29,3 +29,6 @@ class SuperJob(JobParser):
         else:
             print("Ошибка при выполнении запроса.")
             return []
+
+    def get_search_vacancies(self, search_data, n=10):
+        return self.get_vacancies(keyword=search_data, count=n)
