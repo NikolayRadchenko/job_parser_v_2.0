@@ -6,6 +6,9 @@ from print_table import print_prettytable_sj, print_prettytable_hhru
 
 
 def print_operations():
+    """
+    Метод для отображения вариантов использования приложения пользователем
+    """
     print("1. Ввести ключевое слово для поиска;\n"
           "2. Получить топ N вакансий по зарплате;\n"
           "3. Назад.\n")
@@ -19,6 +22,10 @@ def print_result_search(platform, res, sorty="id"):
 
 
 def user_interface():
+    """
+    Метод для работы с пользователем и получения основной информации от пользователя
+    :return:
+    """
     global res
     global vacancies
 
@@ -26,6 +33,7 @@ def user_interface():
     hh = HeadHunter
     sj = SuperJob
     list_platforms = [hh, sj]
+    # Блок приветствия пользователя и получния основной информации от пользователя
     print('Вас приветствует "Парсер вакансий"')
     user_name = input("Как Вас зовут?\n")
     print(f'Здравствуйте, {user_name}')
@@ -64,7 +72,7 @@ def user_interface():
                     else:
                         res = platform().get_search_vacancies(search_query, 100)
                     print(print_result_search(platform, res, sorty="Зарплата")[0])
-                    input("Нажмите ENTER, чтобы продолжить!")
+                    input("Нажмите ENTER, чтобы продолжить!\n")
                     break
                 elif user_choice == "3":
                     break
@@ -72,9 +80,13 @@ def user_interface():
                     print("\nНеверный ввод\n")
                     continue
 
+            # Блок сохранения полученных данных в файл
+
             filename = "vacancies.json"
             js_file = JSONSaver(filename)
             file_path = js_file.add_vacancy(res)
+
+            # Блок работы с сохраненными данными
 
             while True:
                 user_choice = input("1 - Посмотреть вакансии\n"

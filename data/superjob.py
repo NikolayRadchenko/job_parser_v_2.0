@@ -6,6 +6,9 @@ import json
 
 
 class SuperJob(JobParser):
+    """
+        Класс для работы с API сайта superjob.ru
+    """
     __api_key = os.getenv('SJ_API_KEY')
     _api_link = "https://api.superjob.ru/2.0/vacancies"
 
@@ -13,6 +16,13 @@ class SuperJob(JobParser):
         return "superjob.ru"
 
     def get_vacancies(self, **kwargs):
+        """
+        :param kwargs:
+        text - Поисковый запрос
+        per_page - Количество вакансий на странице
+        :return:
+        Возвращает список вакансий
+        """
         params = {}
         headers = {
             'X-Api-App-Id': self.__api_key
@@ -31,4 +41,11 @@ class SuperJob(JobParser):
             return []
 
     def get_search_vacancies(self, search_data, n=10):
+        """
+        Метод для поиска вакансий по параметрам
+        :param search_data: Поисковый запрос
+        :param n: Количество вакансий на странице
+        :return:
+        Возвращает список найденных вакансий в соответствии с параметрами
+        """
         return self.get_vacancies(keyword=search_data, count=n)

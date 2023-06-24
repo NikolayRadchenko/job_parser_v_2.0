@@ -2,6 +2,9 @@ from prettytable import PrettyTable, ALL
 
 
 def get_prettytable():
+    """
+    Метод для создания таблицы для удобного вывода
+    """
     table = PrettyTable()
     table.field_names = ["id", "Вакансия", "Зарплата", "Описание", "Ссылка"]
 
@@ -11,6 +14,11 @@ def get_prettytable():
 
 
 def print_prettytable_hhru(json_data, sorty: str):
+    """
+    Метод сбора данных с сайта headhunter.ru в таблицы
+    :param json_data: данные о вакансиях в формате JSON
+    :param sorty: вариант сортировки
+    """
 
     table = get_prettytable()
     vacancies = []
@@ -46,6 +54,11 @@ def print_prettytable_hhru(json_data, sorty: str):
 
 
 def print_prettytable_sj(json_data, sorty):
+    """
+    Метод сбора данных с сайта superjob.ru в таблицы
+    :param json_data: данные о вакансиях в формате JSON
+    :param sorty: вариант сортировки
+    """
 
     table = get_prettytable()
     vacancies = []

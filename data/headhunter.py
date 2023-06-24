@@ -5,6 +5,9 @@ import json
 
 
 class HeadHunter(JobParser):
+    """
+    Класс для работы с API сайта headhunter.ru
+    """
 
     _api_link = "https://api.hh.ru/vacancies"
 
@@ -12,6 +15,13 @@ class HeadHunter(JobParser):
         return "headhunter.ru"
 
     def get_vacancies(self, **kwargs):
+        """
+        :param kwargs:
+        text - Поисковый запрос
+        per_page - Количество вакансий на странице
+        :return:
+        Возвращает список вакансий
+        """
         params = {}
         for key, value in kwargs.items():
             params[key] = value
@@ -27,4 +37,11 @@ class HeadHunter(JobParser):
             return None
 
     def get_search_vacancies(self, search_data, n=10):
+        """
+        Метод для поиска вакансий по параметрам
+        :param search_data: Поисковый запрос
+        :param n: Количество вакансий на странице
+        :return:
+        Возвращает список найденных вакансий в соответствии с параметрами
+        """
         return self.get_vacancies(text=search_data, per_page=n)

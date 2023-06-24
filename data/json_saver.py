@@ -3,6 +3,10 @@ import os
 
 
 class JSONSaver:
+    """
+    Класс для работы с данными и файлами в формате JSON
+    filename - названия файла для работы с ним
+    """
     def __init__(self, filename):
         self.__filename = filename
 
@@ -19,15 +23,24 @@ class JSONSaver:
         self.__filename = name
 
     def add_vacancy(self, vacancy_data):
+        """
+        Метод для записи JSON данных в файл
+        """
         with open(self.file_path, "w", encoding="utf-8") as file:
             json.dump(vacancy_data, file, indent=2, ensure_ascii=False)
         return self.file_path
 
     def get_vacancies(self):
+        """
+        Метод для получения JSON данных из файла
+        """
         with open(self.file_path, 'r', encoding="utf-8") as file:
             return self.printjson(json.load(file))
 
     def remove_vacancy(self, vacancy_id, platform):
+        """
+        Метод для удаления вакансии из JSON файла
+        """
         with open(self.file_path, encoding="utf8") as file:
             data = json.load(file)
             if platform == "headhunter.ru":
@@ -48,4 +61,7 @@ class JSONSaver:
             json.dump(data, file, indent=2, ensure_ascii=False)
 
     def printjson(self, data_dict):
+        """
+        Метод для удобного отображения JSON данных
+        """
         print(json.dumps(data_dict, indent=2, ensure_ascii=False))
