@@ -1,7 +1,7 @@
-from headhunter import HeadHunter
-from superjob import SuperJob
-from vacancy import Vacancy
-from json_saver import JSONSaver
+from ..headhunter import HeadHunter
+from ..superjob import SuperJob
+from ..vacancy import Vacancy
+from ..json_saver import JSONSaver
 from print_table import print_prettytable_sj, print_prettytable_hhru
 
 
@@ -82,7 +82,7 @@ def user_interface():
 
             # Блок сохранения полученных данных в файл
 
-            filename = "vacancies.json"
+            filename = "../../data/vacancies.json"
             js_file = JSONSaver(filename)
             file_path = js_file.add_vacancy(res)
 

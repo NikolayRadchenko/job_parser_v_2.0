@@ -1,4 +1,4 @@
-from abc_api import JobParser
+from abc_classes.abc_api import JobParser
 
 from requests import *
 import os
