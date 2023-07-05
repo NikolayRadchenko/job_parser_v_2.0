@@ -13,7 +13,7 @@ def get_prettytable():
     return table
 
 
-def print_prettytable_hhru(json_data, sorty: str):
+def print_prettytable(json_data, sorty: str):
     """
     Метод сбора данных с сайта headhunter.ru в таблицы
     :param json_data: данные о вакансиях в формате JSON
@@ -50,39 +50,4 @@ def print_prettytable_hhru(json_data, sorty: str):
         vacancies.append(values)
 
         table.add_row(item_values)
-    return table.get_string(sortby=sorty), vacancies
-
-
-def print_prettytable_sj(json_data, sorty):
-    """
-    Метод сбора данных с сайта superjob.ru в таблицы
-    :param json_data: данные о вакансиях в формате JSON
-    :param sorty: вариант сортировки
-    """
-
-    table = get_prettytable()
-    vacancies = []
-
-    for item in json_data["objects"]:
-        item_values = []
-        values = {}
-        item_values.append(item.get("id", ""))
-        values["id"] = item_values[0]
-        item_values.append(item.get("profession", "")[:30])
-        values["name"] = item_values[1]
-        if item.get("payment_from", "") is not None:
-            item_values.append(f'{item.get("payment_from", "")} {item.get("currency", "")}')
-        elif item.get("payment_to", "") is not None:
-            item_values.append(f'{item.get("payment_to", "")} {item.get("currency", "")}')
-        else:
-            item_values.append("Не указана")
-        values["salary"] = item_values[2]
-        item_values.append(item.get("vacancyRichText", "")[:50])
-        values["description"] = item_values[3]
-        item_values.append(item.get("link", "")[7:])
-        values["url"] = item_values[4]
-        vacancies.append(values)
-
-        table.add_row(item_values)
-
     return table.get_string(sortby=sorty), vacancies

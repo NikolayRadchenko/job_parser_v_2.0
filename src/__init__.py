@@ -1,11 +1,9 @@
-from headhunter import HeadHunter
-from json_saver import JSONSaver
-from superjob import SuperJob
-from vacancy import Vacancy
+from .headhunter import HeadHunter
+from .dbmanager import DBManager
+from .vacancy import Vacancy
 
 __all__ = [
     'HeadHunter',
-    'JSONSaver',
-    'SuperJob',
+    'DBManager',
     'Vacancy'
 ]

@@ -10,6 +10,7 @@ packages = [{include = "job_parser"}]
 python = "^3.9"
 prettytable = "^3.8.0"
 requests = "^2.31.0"
+psycopg2 = "^2.9.6"
 
 
 [build-system]

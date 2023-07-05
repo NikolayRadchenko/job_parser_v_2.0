@@ -1,4 +1,4 @@
-from abc_classes.abc_api import JobParser
+from .abc_classes import JobParser
 
 from requests import *
 import json
@@ -9,7 +9,8 @@ class HeadHunter(JobParser):
     Класс для работы с API сайта headhunter.ru
     """
 
-    _api_link = "https://api.hh.ru/vacancies"
+    _api_link_vacancies = "https://api.hh.ru/vacancies"
+    _api_link_employers = "https://api.hh.ru/employers"
 
     def __str__(self):
         return "headhunter.ru"
@@ -26,7 +27,7 @@ class HeadHunter(JobParser):
         for key, value in kwargs.items():
             params[key] = value
 
-        response = get(self._api_link, params=params)
+        response = get(self._api_link_vacancies, params=params)
 
         if response.status_code == 200:
             data = response.text
@@ -45,3 +46,12 @@ class HeadHunter(JobParser):
         Возвращает список найденных вакансий в соответствии с параметрами
         """
         return self.get_vacancies(text=search_data, per_page=n)
+
+    def get_employer(self, employer_id):
+        response = get(f'{self._api_link_employers}/{employer_id}')
+
+        if response.status_code == 200:
+            return json.loads(response.text)
+        else:
+            print("Ошибка при выполнении запроса:", response.status_code)
+            return None

@@ -1,3 +1,6 @@
+import json
+
+
 class Vacancy:
     """
     Класс для работы с вакансиями
@@ -25,3 +28,10 @@ class Vacancy:
 
     def str_to_digit(self, string):
         return int(string.split(" ")[0])
+
+    # def get_employer_data(self, data) -> list[dict]:
+    #     """Извлекает данные о работодателях из JSON-данных
+    #      и возвращает список словарей с соответствующей информацией."""
+    #     data_employer = []
+    #     data_employer.append(data[])
+    #     return data_employer
