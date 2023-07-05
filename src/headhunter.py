@@ -10,7 +10,7 @@ class HeadHunter(JobParser):
     """
 
     _api_link_vacancies = "https://api.hh.ru/vacancies"
-    _api_link_employers = "https://api.hh.ru/employers"
+    _api_link_employers = "https://api.hh.ru/employers/{}"
 
     def __str__(self):
         return "headhunter.ru"
@@ -47,11 +47,14 @@ class HeadHunter(JobParser):
         """
         return self.get_vacancies(text=search_data, per_page=n)
 
-    def get_employer(self, employer_id):
-        response = get(f'{self._api_link_employers}/{employer_id}')
+    def get_employers(self, employer_id):
+        response = get(self._api_link_employers.format(employer_id))
 
         if response.status_code == 200:
             return json.loads(response.text)
         else:
             print("Ошибка при выполнении запроса:", response.status_code)
             return None
+
+    def get_search_employers(self, employer_id):
+        return self.get_employers(employer_id)
