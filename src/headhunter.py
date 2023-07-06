@@ -15,18 +15,8 @@ class HeadHunter(JobParser):
     def __str__(self):
         return "headhunter.ru"
 
-    def get_vacancies(self, **kwargs):
-        """
-        :param kwargs:
-        text - Поисковый запрос
-        per_page - Количество вакансий на странице
-        :return:
-        Возвращает список вакансий
-        """
-        params = {}
-        for key, value in kwargs.items():
-            params[key] = value
-
+    def get_vacancies(self, employer_id):
+        params = {'employer_id': employer_id}
         response = get(self._api_link_vacancies, params=params)
 
         if response.status_code == 200:
@@ -37,16 +27,6 @@ class HeadHunter(JobParser):
             print("Ошибка при выполнении запроса:", response.status_code)
             return None
 
-    def get_search_vacancies(self, search_data, n=10):
-        """
-        Метод для поиска вакансий по параметрам
-        :param search_data: Поисковый запрос
-        :param n: Количество вакансий на странице
-        :return:
-        Возвращает список найденных вакансий в соответствии с параметрами
-        """
-        return self.get_vacancies(text=search_data, per_page=n)
-
     def get_employers(self, employer_id):
         response = get(self._api_link_employers.format(employer_id))
 
@@ -56,5 +36,29 @@ class HeadHunter(JobParser):
             print("Ошибка при выполнении запроса:", response.status_code)
             return None
 
-    def get_search_employers(self, employer_id):
-        return self.get_employers(employer_id)
+    def get_vacancy_data(self, data) -> list[dict]:
+        values = []
+        value = {}
+
+        for item in data:
+            value["id"] = item["id"]
+            value["employer_id"] = item["employer"]["id"]
+            value["name"] = item["name"]
+            if item.get("salary", "") is not None:
+                value["salary"] = f'{item.get("salary", {}).get("from", "")}' \
+                                  f'{item.get("salary", {}).get("currency", "")}'
+            elif item.get("salary", "") is not None:
+                if item.get("salary", {}).get("from") is None:
+                    value["salary"] = f'{item.get("salary", {}).get("to", "")}' \
+                                      f'{item.get("salary", {}).get("currency", "")}'
+            else:
+                value["salary"] = "Не указана"
+            if item.get("snippet", {}).get("responsibility", "") is not None:
+                value["description"] = f'{item.get("snippet", {}).get("responsibility", "")[0:50]}...'
+            else:
+                value["description"] = "Не указано"
+            value["url"] = item.get("alternate_url", "")
+            values.append(value)
+            value = {}
+
+        return values

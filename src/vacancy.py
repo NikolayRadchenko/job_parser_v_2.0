@@ -10,8 +10,9 @@ class Vacancy:
     description - описание вакансии
     link - ссылка на вакансию
     """
-    def __init__(self, id: str, name: str, salary: str, description: str, link: str):
+    def __init__(self, id: str, employer_id: str, name: str, salary: str, description: str, link: str):
         self.id = id
+        self.employer_id = employer_id
         self.name = name
         self.salary = salary
         self.description = description
@@ -28,10 +29,3 @@ class Vacancy:
 
     def str_to_digit(self, string):
         return int(string.split(" ")[0])
-
-    # def get_employer_data(self, data) -> list[dict]:
-    #     """Извлекает данные о работодателях из JSON-данных
-    #      и возвращает список словарей с соответствующей информацией."""
-    #     data_employer = []
-    #     data_employer.append(data[])
-    #     return data_employer
