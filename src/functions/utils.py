@@ -16,6 +16,9 @@ def print_operations():
 
 
 def parser_start(dbmanager, params, platform, employers_id):
+    """
+    Метод для создания базы данных и таблиц vacancies и employers
+    """
     vacancies = {}
     conn = None
     dbmanager.create_database(params, DB_NAME)

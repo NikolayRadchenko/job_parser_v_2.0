@@ -16,6 +16,9 @@ class HeadHunter(JobParser):
         return "headhunter.ru"
 
     def get_vacancies(self, employer_id):
+        """
+        Метод для получения вакансий с сайта headhanter.ru
+        """
         params = {'employer_id': employer_id}
         response = get(self._api_link_vacancies, params=params)
 
@@ -28,6 +31,9 @@ class HeadHunter(JobParser):
             return None
 
     def get_employers(self, employer_id):
+        """
+        Метод для получения информации об избранных работодателях с сайта headhanter.ru
+        """
         response = get(self._api_link_employers.format(employer_id))
 
         if response.status_code == 200:
@@ -37,6 +43,9 @@ class HeadHunter(JobParser):
             return None
 
     def get_vacancy_data(self, data) -> list[dict]:
+        """
+        Метод для приведения полученной информации с сайта headhanter.ru в удобный формат
+        """
         values = []
         value = {}
 

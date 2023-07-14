@@ -1,10 +1,11 @@
 import psycopg2
-import json
-from data.constants import DB_NAME
 
 
 class DBManager:
     def get_companies_and_vacancies_count(self, cur):
+        """
+        Метод для получения компаний и количества открытых вакансий у каждой компании
+        """
         try:
             cur.execute(f"""
                             SELECT company_name, open_vacancies FROM employers;
@@ -14,6 +15,9 @@ class DBManager:
             print(error)
 
     def get_all_vacancies(self, cur):
+        """
+        Метод для получения всех вакансий
+        """
         try:
             cur.execute(f"""
                             SELECT * FROM vacancies;
@@ -23,6 +27,9 @@ class DBManager:
             print(error)
 
     def get_avg_salary(self, cur):
+        """
+        Метод для нахождения средней зарплаты в вакансиях
+        """
         try:
             cur.execute(f"""
                             SELECT AVG(salary::INTEGER) FROM vacancies
@@ -33,6 +40,9 @@ class DBManager:
             print(error)
 
     def get_vacancies_with_higher_salary(self, cur, n):
+        """
+        Метод для поиска вакансий по зарплате
+        """
         try:
             cur.execute(f"""
                             SELECT * FROM (SELECT * FROM vacancies
@@ -47,6 +57,9 @@ class DBManager:
             print(error)
 
     def get_vacancies_with_keyword(self, cur, keyword):
+        """
+        Метод для поиска вакансий по ключевому слову
+        """
         try:
             cur.execute(f"""
                             SELECT * FROM vacancies
@@ -57,6 +70,9 @@ class DBManager:
             print(error)
 
     def get_favorites_employers(self, params):
+        """
+        Метод для получения избранных работодателей
+        """
         try:
             with psycopg2.connect(**params) as conn:
                 with conn.cursor() as cur:
