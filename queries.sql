@@ -9,12 +9,12 @@ SELECT AVG(salary::INTEGER) FROM vacancies
 WHERE salary <> 'Не указ' AND salary <> 'None';
 
 -- Команда для вывода вакансий из таблицы vacancies по параметрам от пользователя
-SELECT * FROM (SELECT * FROM vacancies
-               WHERE salary <> 'Не указ' AND salary <> 'None'
-               ORDER BY salary DESC
-               LIMIT {n}) AS vacancy_int
-               WHERE salary::INTEGER > (SELECT AVG(salary::INTEGER) FROM vacancies
-                                        WHERE salary <> 'Не указ' AND salary <> 'None')
+SELECT * FROM vacancies
+WHERE salary NOT IN ('Не указ', 'None')
+AND (salary::INTEGER > (SELECT AVG(salary::INTEGER) FROM vacancies
+WHERE salary <> 'Не указ' AND salary <> 'None'))
+ORDER BY salary::INTEGER DESC
+LIMIT {n};
 
 -- Команда для поиска вакансий по параметрам
 SELECT * FROM vacancies

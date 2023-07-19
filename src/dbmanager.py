@@ -45,12 +45,12 @@ class DBManager:
         """
         try:
             cur.execute(f"""
-                            SELECT * FROM (SELECT * FROM vacancies
-                            WHERE salary <> 'Не указ' AND salary <> 'None' 
-                            ORDER BY salary DESC
-                            LIMIT {n}) AS vacancy_int
-                            WHERE salary::INTEGER > (SELECT AVG(salary::INTEGER) FROM vacancies 
-                                                     WHERE salary <> 'Не указ' AND salary <> 'None')
+                            SELECT * FROM vacancies
+                            WHERE salary NOT IN ('Не указ', 'None')
+	                        AND (salary::INTEGER > (SELECT AVG(salary::INTEGER) FROM vacancies
+	                        WHERE salary <> 'Не указ' AND salary <> 'None'))
+	                        ORDER BY salary::INTEGER DESC
+	                        LIMIT {n};
                         """)
             return cur.fetchall()
         except Exception as error:
