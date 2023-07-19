@@ -30,9 +30,12 @@ def parser_start(dbmanager, params, platform, employers_id):
                 dbmanager.create_vacancies_table(cur)
                 for employer_id in employers_id:
                     vacancies[f'{employer_id}'] = (platform.get_vacancies(employer_id)['items'])
-                dbmanager.add_employers_data(cur, platform, employers_id)
+                for employer_id in employers_id:
+                    data_employer = platform.get_employer_data(platform.get_employers(employer_id))
+                    dbmanager.add_employers_data(cur, data_employer)
                 for key, vacancy in vacancies.items():
-                    dbmanager.add_vacancies_data(cur, platform.get_vacancy_data(vacancy))
+                    for item in platform.get_vacancy_data(vacancy):
+                        dbmanager.add_vacancies_data(cur, item)
                 dbmanager.add_foreign_keys(cur)
                 conn.commit()
 

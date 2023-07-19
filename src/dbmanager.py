@@ -82,28 +82,23 @@ class DBManager:
         except Exception as error:
             print(error)
 
-    def add_employers_data(self, cur, platform, employers_id) -> None:
+    def add_employers_data(self, cur, *args) -> None:
         """Добавляет данные из suppliers в таблицу suppliers."""
         try:
-            for employer_id in employers_id:
-                data_json = platform.get_employers(employer_id)
-                cur.execute(f"""
-                                INSERT INTO employers(employer_id, company_name, company_url, open_vacancies, url_hh) 
-                                VALUES ('{data_json["id"]}', '{data_json["name"]}', '{data_json["site_url"]}', 
-                                '{data_json["open_vacancies"]}', '{data_json["alternate_url"]}');
-                            """)
+            cur.execute(f"""
+                            INSERT INTO employers(employer_id, company_name, company_url, open_vacancies, url_hh) 
+                            VALUES (%s, %s, %s, %s, %s);
+                            """, *args)
         except Exception as error:
             print(error)
 
-    def add_vacancies_data(self, cur, data) -> None:
+    def add_vacancies_data(self, cur, *args) -> None:
         """Добавляет данные из suppliers в таблицу suppliers."""
         try:
-            for vacancy in data:
-                cur.execute(f"""
-                                INSERT INTO vacancies(vacancy_id, employer_id, vacancy_name, salary, vacancy_url, description) 
-                                VALUES ('{vacancy["id"]}', '{vacancy["employer_id"]}', '{vacancy["name"]}', 
-                                '{vacancy["salary"][:-3]}', '{vacancy["url"]}', '{vacancy["description"]}');
-                            """)
+            cur.execute(f"""
+                            INSERT INTO vacancies(vacancy_id, employer_id, vacancy_name, salary, vacancy_url, description) 
+                            VALUES (%s, %s, %s, %s, %s, %s);
+                            """, *args)
         except Exception as error:
             print(error)
 

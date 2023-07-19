@@ -42,32 +42,44 @@ class HeadHunter(JobParser):
             print("Ошибка при выполнении запроса:", response.status_code)
             return None
 
-    def get_vacancy_data(self, data) -> list[dict]:
+    def get_vacancy_data(self, data) -> list[list]:
         """
-        Метод для приведения полученной информации с сайта headhanter.ru в удобный формат
+        Метод для приведения полученной информации о вакансиях с сайта headhanter.ru в удобный формат
         """
         values = []
-        value = {}
+        value = []
 
         for item in data:
-            value["id"] = item["id"]
-            value["employer_id"] = item["employer"]["id"]
-            value["name"] = item["name"]
+            value.append(item["id"])
+            value.append(item["employer"]["id"])
+            value.append(item["name"])
             if item.get("salary", "") is not None:
-                value["salary"] = f'{item.get("salary", {}).get("from", "")}' \
-                                  f'{item.get("salary", {}).get("currency", "")}'
+                value.append(f'{item.get("salary", {}).get("from", "")}{item.get("salary", {}).get("currency", "")}')
             elif item.get("salary", "") is not None:
                 if item.get("salary", {}).get("from") is None:
-                    value["salary"] = f'{item.get("salary", {}).get("to", "")}' \
-                                      f'{item.get("salary", {}).get("currency", "")}'
+                    value.append(f'{item.get("salary", {}).get("to", "")}{item.get("salary", {}).get("currency", "")}')
             else:
-                value["salary"] = "Не указана"
+                value.append("Не указана")
             if item.get("snippet", {}).get("responsibility", "") is not None:
-                value["description"] = f'{item.get("snippet", {}).get("responsibility", "")[0:50]}...'
+                value.append(f'{item.get("snippet", {}).get("responsibility", "")[0:50]}...')
             else:
-                value["description"] = "Не указано"
-            value["url"] = item.get("alternate_url", "")
+                value.append("Не указано")
+            value.append(item.get("alternate_url", ""))
             values.append(value)
-            value = {}
+            value = []
+
+        return values
+
+    def get_employer_data(self, data) -> list[dict]:
+        """
+        Метод для приведения полученной информации о работодателях с сайта headhanter.ru в удобный формат
+        """
+        values = []
+
+        values.append(data["id"])
+        values.append(data["name"])
+        values.append(data.get("site_url", ""))
+        values.append(data.get("open_vacancies", ""))
+        values.append(data.get("alternate_url", ""))
 
         return values
