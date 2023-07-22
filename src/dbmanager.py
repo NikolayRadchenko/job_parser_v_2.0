@@ -33,7 +33,7 @@ class DBManager:
         try:
             cur.execute(f"""
                             SELECT AVG(salary::INTEGER) FROM vacancies
-                            WHERE salary <> 'Не указ' AND salary <> 'None';
+                            WHERE salary <> 'Не указана' AND salary <> 'None';
                         """)
             return cur.fetchall()
         except Exception as error:
@@ -46,9 +46,9 @@ class DBManager:
         try:
             cur.execute(f"""
                             SELECT * FROM vacancies
-                            WHERE salary NOT IN ('Не указ', 'None')
+                            WHERE salary NOT IN ('Не указана', 'None')
 	                        AND (salary::INTEGER > (SELECT AVG(salary::INTEGER) FROM vacancies
-	                        WHERE salary <> 'Не указ' AND salary <> 'None'))
+	                        WHERE salary <> 'Не указана' AND salary <> 'None'))
 	                        ORDER BY salary::INTEGER DESC
 	                        LIMIT {n};
                         """)

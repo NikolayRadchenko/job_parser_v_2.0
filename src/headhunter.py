@@ -54,10 +54,10 @@ class HeadHunter(JobParser):
             value.append(item["employer"]["id"])
             value.append(item["name"])
             if item.get("salary", "") is not None:
-                value.append(f'{item.get("salary", {}).get("from", "")}{item.get("salary", {}).get("currency", "")}')
+                value.append(f'{item.get("salary", {}).get("from", "")}{item.get("salary", {}).get("currency")[:-3]}')
             elif item.get("salary", "") is not None:
                 if item.get("salary", {}).get("from") is None:
-                    value.append(f'{item.get("salary", {}).get("to", "")}{item.get("salary", {}).get("currency", "")}')
+                    value.append(f'{item.get("salary", {}).get("to", "")}{item.get("salary", {}).get("currency")[:-3]}')
             else:
                 value.append("Не указана")
             if item.get("snippet", {}).get("responsibility", "") is not None:
